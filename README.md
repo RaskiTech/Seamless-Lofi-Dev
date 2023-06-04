@@ -1,5 +1,8 @@
 # Seamless Lofi
 
-Seamless lofi is a project that attempts to create endless lofi music using AI and other techniques. The music is never-ending, but constantly changing so the listener doesn't get tired by always hearing the same notes.
+Welcome to Seamless Lofi, a project that utilizes AI and other techniques to create an infinite stream of lofi music. The goal of this project is to provide listeners with an ever-changing musical experience, ensuring they never tire of hearing the same notes repeatedly.
 
-This is the dev branch. Check out the project website at https://raskitech.github.io/seamless-lofi
+You can adjust the volume and the pace of the music to suit your preferences. The project is not necessarily finished, and is possibly improved in the future.
+
+# Project Website
+Explore the Seamless Lofi project website at https://raskitech.github.io/seamless-lofi.
