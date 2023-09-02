@@ -23,7 +23,7 @@ function NoteVisualizer(props) {
             var width = i % WIDTH;
             var height = Math.floor(i / WIDTH);
 
-            var color = noteArray[width][HEIGHT - height] > treshhold ? 255 : 0
+            var color = noteArray[width][HEIGHT - height] > treshhold ? 255 : 20
 
             for (var j = 0; j < 3; j++)
                 pixels[4 * i + j] = color

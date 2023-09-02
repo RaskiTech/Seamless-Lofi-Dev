@@ -75,9 +75,6 @@ class Sequencer extends Component {
     StartedPlaying() {
         const ambienceVol = 0.4; // 0.5
 
-        // this.props.nodeRef.port.postMessage({type: "changeAmbienceVolume", index: this.ambienceClipNames["rain"], volume: 1.5 * ambienceVol});
-        // this.props.nodeRef.port.postMessage({type: "changeAmbienceVolume", index: this.ambienceClipNames["cafe"], volume: 0.75 * ambienceVol});
-        // this.props.nodeRef.port.postMessage({type: "changeAmbienceVolume", index: this.ambienceClipNames["birds"], volume: 1.5 * ambienceVol});
         this.ChangeToRandomAmbienceClips();
     }
     StoppedPlaying() {
@@ -203,24 +200,30 @@ class Sequencer extends Component {
 
 
     async GenerateNewMelody() {
-        var vec = GaussianRandomVector(0, 1);
-        var arr = await Predict(this.state.model, vec);
+        var arr, vec;
+        do {
+            vec = GaussianRandomVector(0, 1);
+            arr = await Predict(this.state.model, vec);
+
+        } while (!this.IsAcceptableMelody(arr));   
+
         this.setState({
             melodyNoteArray: arr,
             generatorArray: vec,
         });
-        this.state.generatorArray = vec; // Update this for this frame also, because it will be used in a functin
-        console.log("Set melody", this.state);
 
-        this.GenerateModifiedMelody();
+        this.state.generatorArray = vec; // Update this for this frame also, because it will be used in the next function
+
+        this.GenerateModifiedMelody(false);
     }
-    async GenerateModifiedMelody() {
+    async GenerateModifiedMelody(checkAcceptableMelody = true) {
         if (this.props.melodyChangeSpeed === 0)
             return;
 
         var vec = this.state.generatorArray;
+        const changeAmount = this.props.melodyChangeSpeed * 2;
 
-        for (var i = 0; i < this.props.melodyChangeSpeed; i++) {
+        for (var i = 0; i < changeAmount; i++) {
             var randIndex = Math.floor(Math.random() * vec.length)
 
             vec[randIndex] = GaussianRandomValue(0, 1);
@@ -232,7 +235,37 @@ class Sequencer extends Component {
             generatorArray: vec,
         });
 
+        if (checkAcceptableMelody && !this.IsAcceptableMelody(arr))
+            this.GenerateNewMelody();
     }
+
+    // Check if the melody has outrageous gaps in it
+    IsAcceptableMelody(melodyArray) {
+
+        const gapLenth = 4;
+
+        let curLength = 0;
+        for (var i = 0; i < melodyArray.length; i++) {
+            if (!this.DoesArrayContainBiggerThan(melodyArray[i], this.state.noteTreshhold))
+                curLength++;
+            else
+                curLength = 0;
+            
+            if (curLength == gapLenth) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    DoesArrayContainBiggerThan(array, value) {
+        for (var i = 0; i < array.length; i++)
+            if (array[i] > value)
+                return true;
+        return false;
+    }
+
     SwapMelodyBuffers() {
         if (this.state.nextMelodyNoteArray.length === 0)
             return;

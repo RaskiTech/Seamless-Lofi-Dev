@@ -20,6 +20,7 @@ export async function LoadModel(stateToLoadModelInto) {
 
 }
 
+// Returns a 64x64 xy-vector
 export async function Predict(model, predictVector) {
     if (predictVector.length !== VECTOR_SIZE) {
         console.log("Predict vector length is not the correct size. It should be " + VECTOR_SIZE + " but it is " + predictVector.length);
