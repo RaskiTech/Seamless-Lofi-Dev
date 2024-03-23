@@ -5,4 +5,4 @@ Welcome to Seamless Lofi, a project that utilizes AI and other techniques to cre
 You can adjust the volume and the pace of the music to suit your preferences. The project is not necessarily finished, and is possibly improved in the future.
 
 # Project Website
-Explore the Seamless Lofi project website at https://raskitech.github.io/seamless-lofi.
+Explore the Seamless Lofi project website at [https://raskitech.github.io/seamless-lofi](https://raskitech.github.io/Seamless-Lofi/)https://raskitech.github.io/Seamless-Lofi/.
